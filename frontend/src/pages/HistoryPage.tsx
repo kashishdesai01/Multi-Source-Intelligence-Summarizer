@@ -245,7 +245,9 @@ export default function HistoryPage() {
                         {report.report_title || `Report · ${report.report_id.slice(0, 8)}`}
                       </h3>
                       {report.is_saved && (
-                        <BookmarkCheck size={14} style={{ color: '#6366f1', flexShrink: 0 }} title="Saved" />
+                        <span title="Saved" style={{ display: 'inline-flex' }}>
+                          <BookmarkCheck size={14} style={{ color: '#6366f1', flexShrink: 0 }} />
+                        </span>
                       )}
                     </div>
                     <ChevronRight size={16} className="report-card-arrow" />
