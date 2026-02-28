@@ -3,9 +3,9 @@ terraform {
     aws = { source = "hashicorp/aws", version = "~> 5.0" }
   }
   backend "s3" {
-    bucket = "multidoc-terraform-state"
+    bucket = "multidoc-tf-state-kd-2026"
     key    = "prod/terraform.tfstate"
-    region = "us-east-1"
+    region = "us-west-1"
   }
 }
 
@@ -24,25 +24,25 @@ module "networking" {
 }
 
 module "secrets" {
-  source           = "./modules/secrets"
-  app_name         = var.app_name
-  openai_api_key   = var.openai_api_key
-  mongodb_uri      = var.mongodb_uri
+  source         = "./modules/secrets"
+  app_name       = var.app_name
+  openai_api_key = var.openai_api_key
+  mongodb_uri    = var.mongodb_uri
 }
 
 module "ecs" {
-  source           = "./modules/ecs"
-  app_name         = var.app_name
-  aws_region       = var.aws_region
-  ecr_repo_url     = module.ecr.repo_url
-  image_tag        = var.image_tag
-  vpc_id           = module.networking.vpc_id
-  public_subnets   = module.networking.public_subnets
-  private_subnets  = module.networking.private_subnets
-  alb_sg_id        = module.networking.alb_sg_id
-  ecs_sg_id        = module.networking.ecs_sg_id
-  alb_arn          = module.networking.alb_arn
-  secrets_arn      = module.secrets.secret_arn
+  source          = "./modules/ecs"
+  app_name        = var.app_name
+  aws_region      = var.aws_region
+  ecr_repo_url    = module.ecr.repo_url
+  image_tag       = var.image_tag
+  vpc_id          = module.networking.vpc_id
+  public_subnets  = module.networking.public_subnets
+  private_subnets = module.networking.private_subnets
+  alb_sg_id       = module.networking.alb_sg_id
+  ecs_sg_id       = module.networking.ecs_sg_id
+  alb_arn         = module.networking.alb_arn
+  secrets_arn     = module.secrets.secret_arn
 }
 
 module "s3_cloudfront" {

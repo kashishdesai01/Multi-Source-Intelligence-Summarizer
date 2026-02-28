@@ -19,7 +19,7 @@ from urllib.parse import urlparse
 from config import settings
 
 # ── Static override DB (curated corrections) ─────────────────────────────────
-_STATIC_DB_PATH = Path(__file__).parent / "data" / "news_trust_db.json"
+_STATIC_DB_PATH = Path(__file__).parent.parent / "data" / "news_trust_db.json"
 _static_db: dict[str, float] | None = None
 
 # Manual bias corrections: high-PR domains with known credibility issues

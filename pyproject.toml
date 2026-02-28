@@ -53,3 +53,4 @@ include = ["agents*", "conflict*", "summarizer*", "api*", "db*"]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+pythonpath = ["."]

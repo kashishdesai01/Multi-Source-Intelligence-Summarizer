@@ -1,5 +1,6 @@
 """Tests for BART summarizer (no API key required)."""
 import pytest
+from unittest.mock import patch, MagicMock
 from db.models import Claim, Conflict
 
 
@@ -22,8 +23,12 @@ SAMPLE_CONFLICT = Conflict(
 
 
 @pytest.mark.asyncio
-async def test_bart_summarizer_returns_nonempty():
+@patch("summarizer.bart_summarizer._get_pipe")
+async def test_bart_summarizer_returns_nonempty(mock_get_pipe):
     """BART summarizer should produce non-empty output without an API key."""
+    mock_pipe = MagicMock()
+    mock_pipe.return_value = [{"summary_text": "This is a sufficiently long mocked summary from the BART model. " * 3}]
+    mock_get_pipe.return_value = mock_pipe
     from summarizer.bart_summarizer import BartSummarizer
     summarizer = BartSummarizer()
     full, sections = await summarizer.summarize(SAMPLE_CLAIMS, [SAMPLE_CONFLICT], ["research_paper"])
@@ -33,8 +38,12 @@ async def test_bart_summarizer_returns_nonempty():
 
 
 @pytest.mark.asyncio
-async def test_bart_summarizer_conflict_in_output():
+@patch("summarizer.bart_summarizer._get_pipe")
+async def test_bart_summarizer_conflict_in_output(mock_get_pipe):
     """Conflict information should appear in the Conflicts section."""
+    mock_pipe = MagicMock()
+    mock_pipe.return_value = [{"summary_text": "Mocked summary."}]
+    mock_get_pipe.return_value = mock_pipe
     from summarizer.bart_summarizer import BartSummarizer
     summarizer = BartSummarizer()
     _, sections = await summarizer.summarize(SAMPLE_CLAIMS, [SAMPLE_CONFLICT], ["news_article"])
@@ -44,7 +53,11 @@ async def test_bart_summarizer_conflict_in_output():
 
 
 @pytest.mark.asyncio
-async def test_bart_summarizer_research_adds_methodology():
+@patch("summarizer.bart_summarizer._get_pipe")
+async def test_bart_summarizer_research_adds_methodology(mock_get_pipe):
+    mock_pipe = MagicMock()
+    mock_pipe.return_value = [{"summary_text": "Mocked summary."}]
+    mock_get_pipe.return_value = mock_pipe
     from summarizer.bart_summarizer import BartSummarizer
     method_claim = Claim(
         text="We used a randomized controlled trial methodology with 500 participants over 12 months.",

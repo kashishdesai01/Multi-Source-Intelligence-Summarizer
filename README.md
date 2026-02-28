@@ -113,7 +113,7 @@ cd infra
 terraform init
 terraform apply \
   -var="openai_api_key=sk-your-key" \
-  -var="mongodb_uri=mongodb+srv://user:pass@cluster.mongodb.net/multidoc"
+  -var="mongodb_uri=<YOUR_MONGODB_URI>"
 ```
 
 This provisions:

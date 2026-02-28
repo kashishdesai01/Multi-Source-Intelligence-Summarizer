@@ -11,7 +11,7 @@ _pipe: Pipeline | None = None
 def _get_pipe() -> Pipeline:
     global _pipe
     if _pipe is None:
-        _pipe = pipeline("summarization", model=settings.bart_model, device=-1)
+        _pipe = pipeline(model=settings.bart_model, device=-1)
     return _pipe
 
 

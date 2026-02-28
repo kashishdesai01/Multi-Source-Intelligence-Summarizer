@@ -36,7 +36,7 @@ async def test_research_credibility_no_meta():
         score = await agent.score_credibility(doc)
 
     assert 0.0 <= score.overall <= 1.0
-    assert "venue_tier" in score.breakdown
+    assert "source_authority" in score.breakdown
     assert "recency" in score.breakdown
 
 
@@ -51,6 +51,7 @@ async def test_research_credibility_with_meta():
         raw_text=RESEARCH_TEXT,
         title="AlphaFold",
         doc_type="research_paper",
+        source_url="https://nature.com/article"
     )
 
     mock_meta = {
@@ -71,13 +72,15 @@ async def test_research_credibility_with_meta():
 @pytest.mark.asyncio
 async def test_news_credibility_high_trust_source():
     from agents.news_agent import NewsAgent
+    from datetime import datetime, timezone, timedelta
     agent = NewsAgent()
+    recent_date = (datetime.now(timezone.utc) - timedelta(days=2)).isoformat()
     doc = DocumentRecord(
         doc_id="test-news-001",
         raw_text=NEWS_TEXT,
         source_url="https://reuters.com/article/xyz",
         doc_type="news_article",
-        metadata={"published_date": "2024-06-01T10:00:00Z"},
+        metadata={"published_date": recent_date},
     )
     score = await agent.score_credibility(doc)
     assert score.overall >= 0.70, f"Reuters should score high, got {score.overall}"

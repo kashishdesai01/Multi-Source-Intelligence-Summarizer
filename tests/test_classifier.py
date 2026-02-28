@@ -36,15 +36,15 @@ Article 3: Termination. Either party may terminate this agreement with 30 days n
 
 @pytest.mark.asyncio
 async def test_classify_research_paper():
-    from agents.classifier import _rule_based_hints
-    result = _rule_based_hints(RESEARCH_TEXT)
+    from agents.classifier import _simple_hint
+    result = _simple_hint(RESEARCH_TEXT)
     assert result == "research_paper"
 
 
 @pytest.mark.asyncio
 async def test_classify_legal_document():
-    from agents.classifier import _rule_based_hints
-    result = _rule_based_hints(LEGAL_TEXT)
+    from agents.classifier import _simple_hint
+    result = _simple_hint(LEGAL_TEXT)
     assert result == "legal_document"
 
 

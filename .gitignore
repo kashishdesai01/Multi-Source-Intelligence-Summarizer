@@ -44,3 +44,9 @@ build/
 # Data
 data/*.json
 !data/news_trust_db.json
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfvars
+*.tfstate.backup

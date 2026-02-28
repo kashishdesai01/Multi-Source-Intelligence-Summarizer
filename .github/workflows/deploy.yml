@@ -7,8 +7,8 @@ on:
     branches: [main]
 
 env:
-  AWS_REGION: us-east-1
-  ECR_REPO: multidoc-summarizer
+  AWS_REGION: us-west-1
+  ECR_REPO: multidoc-summarizer-repo
 
 jobs:
   # ── Tests ────────────────────────────────────────────────────────────────────
@@ -78,8 +78,8 @@ jobs:
           IMAGE_TAG: ${{ github.sha }}
         run: |
           aws ecs update-service \
-            --cluster multidoc-cluster \
-            --service multidoc-backend \
+            --cluster multidoc-summarizer-cluster \
+            --service multidoc-summarizer-service \
             --force-new-deployment \
             --region ${{ env.AWS_REGION }}
 
